@@ -9,10 +9,10 @@ import {
 } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import app from './config';
-import { Location } from '@/types';
+import { ILocation } from '@/types';
 
 const converter = {
-  toFirestore: (data: Location) => data,
+  toFirestore: (data: ILocation) => data,
   fromFirestore: (snapshot: DocumentSnapshot) => ({
     ...snapshot.data(),
     id: snapshot.id,

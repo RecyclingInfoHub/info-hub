@@ -1,6 +1,6 @@
 import { DocumentReference } from 'firebase/firestore';
 
-export interface Location {
+export interface ILocation {
   id: string;
   address: string;
   accepts: DocumentReference[];
@@ -13,3 +13,7 @@ export interface Location {
   hours: string;
   email?: string;
 }
+
+export type IMaterials = {
+  id: string;
+};

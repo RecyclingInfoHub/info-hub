@@ -17,13 +17,16 @@ const MapFilter = ({
   rawMaterials,
   materialFilterList,
   toggleMaterialFilterHandler,
-}: // toggleMaterialFilterHandler,
-// searchString,
-// onChangeSearchString,
-{
+  searchString,
+  onChangeSearchString,
+}: {
   rawMaterials: IMaterials[] | undefined;
   materialFilterList: string[];
   toggleMaterialFilterHandler: (material: string) => void;
+  searchString: string;
+  onChangeSearchString: React.ChangeEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  >;
 }) => {
   const materials = rawMaterials?.map((material) => ({
     label: startCase(material.id),
@@ -62,8 +65,8 @@ const MapFilter = ({
           <Input
             placeholder="Enter materials or location name or address to search"
             className="input w-full bg-gray-200 mb-4"
-            // defaultValue={searchString}
-            // onChange={onChangeSearchString}
+            defaultValue={searchString}
+            onChange={onChangeSearchString}
           />
           <hr />
           <div>

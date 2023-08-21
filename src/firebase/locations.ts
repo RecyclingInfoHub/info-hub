@@ -1,5 +1,6 @@
 import {
   DocumentSnapshot,
+  FirestoreDataConverter,
   Query,
   collection,
   doc,
@@ -11,10 +12,10 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import app from './config';
 import { ILocation } from '@/types';
 
-const converter = {
+const converter: FirestoreDataConverter<ILocation> = {
   toFirestore: (data: ILocation) => data,
-  fromFirestore: (snapshot: DocumentSnapshot) => ({
-    ...snapshot.data(),
+  fromFirestore: (snapshot: DocumentSnapshot): ILocation => ({
+    ...(snapshot.data() as ILocation),
     id: snapshot.id,
   }),
 };
@@ -24,20 +25,19 @@ export const useLocations = (materialFilters?: string[]) => {
     converter
   );
 
-  let firebaseQuery: Query = locationRef;
+  let queryRef: Query<ILocation> = locationRef;
 
   if (materialFilters && materialFilters.length) {
     const materialRef = collection(getFirestore(app), 'materials');
     const materialFilterRefs = materialFilters.map((material) =>
       doc(materialRef, material)
     );
-    const materialFiltersQuery = query(
+
+    queryRef = query(
       locationRef,
       where('accepts', 'array-contains-any', materialFilterRefs)
     );
-
-    firebaseQuery = materialFiltersQuery;
   }
 
-  return useCollectionData(firebaseQuery);
+  return useCollectionData(queryRef);
 };

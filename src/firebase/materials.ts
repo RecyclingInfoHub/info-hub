@@ -1,20 +1,18 @@
+import type { IMaterials } from '@/types';
 import {
   DocumentSnapshot,
+  FirestoreDataConverter,
   Query,
   collection,
-  doc,
   getFirestore,
-  query,
-  where,
 } from 'firebase/firestore';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import app from './config';
-import type { IMaterials } from '@/types';
 
-const converter = {
+const converter: FirestoreDataConverter<IMaterials> = {
   toFirestore: (data: IMaterials) => data,
-  fromFirestore: (snapshot: DocumentSnapshot) => ({
-    ...snapshot.data(),
+  fromFirestore: (snapshot: DocumentSnapshot): IMaterials => ({
+    ...(snapshot.data() as IMaterials),
     id: snapshot.id,
   }),
 };
@@ -24,7 +22,7 @@ export const useMaterials = () => {
     converter
   );
 
-  let firebaseQuery: Query = materialRef;
+  const firebaseQuery: Query<IMaterials> = materialRef;
 
   return useCollectionData(firebaseQuery);
 };

@@ -22,7 +22,7 @@ export const useMapStringSearch: IUseMapStringSearchHook = (
 
   useEffect(() => {
     debounceSearch(searchString);
-  }, [searchString]);
+  }, [debounceSearch, searchString]);
 
   return [result];
 };

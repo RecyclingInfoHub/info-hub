@@ -14,7 +14,7 @@
  */
 
 // dotenv is required to read env variables
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 dotenv.config();
 
 // For the default version
@@ -24,17 +24,21 @@ dotenv.config();
 // import algoliasearch from 'algoliasearch';
 
 // For the search only version
-import algoliasearch from "algoliasearch/lite.js";
+import algoliasearch from 'algoliasearch/lite.js';
 
 const client = algoliasearch(
-  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID,
-  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_SECRET
+  process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!,
+  process.env.NEXT_PUBLIC_ALGOLIA_SEARCH_API_SECRET!
 );
-const index = client.initIndex("locations");
+const index = client.initIndex('locations');
 
-try {
-  const { hits } = await index.search("");
-  console.log(hits);
-} catch (error) {
-  console.log(error);
-}
+const search = async () => {
+  try {
+    const { hits } = await index.search('');
+    console.log(hits);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+search();

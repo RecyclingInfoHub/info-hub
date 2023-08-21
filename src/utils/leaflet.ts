@@ -13,7 +13,8 @@ import markerShadow from 'leaflet/dist/images/marker-shadow.png';
  * @see {@link https://stackoverflow.com/a/68228987/7939633 leaflet solution}
  * @see {@link https://github.com/PaulLeCam/react-leaflet/issues/808#issuecomment-977109769 solution in vercel}
  */
-delete L.Icon.Default.prototype._getIconUrl; // no error here, dont worry
+// @ts-expect-error
+delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconUrl: markerIcon.src,
   iconRetinaUrl: markerIcon2x.src,

@@ -1,18 +1,40 @@
 // TODO: Make this server side rendered
 'use client';
 
+import MapFilter from '@/components/MapFilter';
 import { useLocations } from '@/firebase/locations';
+import { useMaterials } from '@/firebase/materials';
+import { useCrossFilterLocations } from '@/hooks/cross-filter-locations';
+import { useMapStringSearch } from '@/hooks/map-string-search';
+import { useSelectMaterial } from '@/hooks/select-material';
 import { Container, Typography } from '@mui/material';
+import dynamic from 'next/dynamic';
+import { useState } from 'react';
+
+const DynamicMap = dynamic(() => import('@/components/Map'), { ssr: false });
 
 export default function Dashboard() {
-  const [locations] = useLocations();
+  const [materials] = useMaterials();
+  const [materialFilterList, toggleMaterialFilterHandler] = useSelectMaterial();
+  const [firebaseLocations] = useLocations(materialFilterList);
+  const [searchString, setSearchString] = useState('');
+  const [algoliaLocations] = useMapStringSearch(searchString);
+  const [filterResult] = useCrossFilterLocations(
+    firebaseLocations,
+    algoliaLocations
+  );
 
   return (
     <Container>
       <Typography variant="h1">Dashboard</Typography>
-      {locations?.map((location) => (
-        <Typography key={location.id}>{location.name}</Typography>
-      ))}
+      <MapFilter
+        rawMaterials={materials}
+        materialFilterList={materialFilterList}
+        toggleMaterialFilterHandler={toggleMaterialFilterHandler}
+        searchString={searchString}
+        onChangeSearchString={(e) => setSearchString(e.currentTarget.value)}
+      />
+      <DynamicMap locations={filterResult} />
     </Container>
   );
 }

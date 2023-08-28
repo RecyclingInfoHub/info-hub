@@ -1,28 +1,33 @@
 import { IUseMapStringSearchHook } from '@/types/hook';
 import { fetchSearchedLocationIds } from '@/utils/filter-locations';
 import { useEffect, useState } from 'react';
-import useDebounceMemoize from './debounce';
+import { useDebounce } from 'usehooks-ts';
 
 export const useMapStringSearch: IUseMapStringSearchHook = (
-  searchString: string
+  searhString: string
 ) => {
   const [result, setResult] = useState<string[]>([]);
-
-  const debounceSearch = useDebounceMemoize(
-    async (searchString: string) => await algoliaSearchString(searchString)
-  );
-
-  const algoliaSearchString = async (searchString: string) => {
-    if (!searchString) return [];
-
-    const resultArr = await fetchSearchedLocationIds(searchString);
-
-    setResult(resultArr);
-  };
+  /**
+   * A debounce looking at search string
+   *
+   * @see {@link https://usehooks-ts.com/react-hook/use-debounce Reference on how to useDebounce}
+   */
+  const debounceSearchString = useDebounce<string>(searhString, 500);
 
   useEffect(() => {
-    debounceSearch(searchString);
-  }, [debounceSearch, searchString]);
+    const algoliaTestSearchString = async (searchString: string) => {
+      if (!searchString) return [];
+
+      const resultArr = await fetchSearchedLocationIds(searchString);
+      console.log('string search result: ');
+      console.table(resultArr);
+
+      setResult(resultArr);
+    };
+    console.log('debounceSearchString ', debounceSearchString);
+
+    algoliaTestSearchString(debounceSearchString);
+  }, [debounceSearchString]);
 
   return [result];
 };

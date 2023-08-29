@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { useDebounce } from 'usehooks-ts';
 
 export const useMapStringSearch: IUseMapStringSearchHook = (
-  searhString: string
+  searchString: string
 ) => {
   const [result, setResult] = useState<string[]>([]);
   /**
@@ -12,7 +12,7 @@ export const useMapStringSearch: IUseMapStringSearchHook = (
    *
    * @see {@link https://usehooks-ts.com/react-hook/use-debounce Reference on how to useDebounce}
    */
-  const debounceSearchString = useDebounce<string>(searhString, 500);
+  const debounceSearchString = useDebounce<string>(searchString, 500);
 
   useEffect(() => {
     const algoliaTestSearchString = async (searchString: string) => {

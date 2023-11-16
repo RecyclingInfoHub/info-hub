@@ -7,7 +7,7 @@ import { useMaterials } from '@/firebase/materials';
 import { useCrossFilterLocations } from '@/hooks/cross-filter-locations';
 import { useMapStringSearch } from '@/hooks/map-string-search';
 import { useSelectMaterial } from '@/hooks/select-material';
-import { Container, Typography } from '@mui/material';
+import { Box, Container, Typography } from '@mui/material';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 
@@ -26,7 +26,7 @@ export default function Dashboard() {
 
   return (
     <Container>
-      <Typography variant="h1">Dashboard</Typography>
+      <Typography variant="h3">Dashboard</Typography>
       <MapFilter
         rawMaterials={materials}
         materialFilterList={materialFilterList}
@@ -34,7 +34,9 @@ export default function Dashboard() {
         searchString={searchString}
         onChangeSearchString={(e) => setSearchString(e.currentTarget.value)}
       />
-      <DynamicMap locations={filterResult} />
+      <Box mb={3}>
+        <DynamicMap locations={filterResult} />
+      </Box>
     </Container>
   );
 }

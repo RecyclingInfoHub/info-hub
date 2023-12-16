@@ -1,9 +1,11 @@
 'use client';
 
-import '@/utils/leaflet';
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
 import { MAP_CONFIG } from '@/constants/map';
 import type { ILocation } from '@/types';
+import '@/utils/leaflet';
+import { greenIcon } from '@/utils/leaflet';
+import { useGeolocation } from '@uidotdev/usehooks';
+import { MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 
 const { zoom, center } = MAP_CONFIG;
 
@@ -13,12 +15,19 @@ const containerStyle = {
 };
 
 export default function Map({ locations }: { locations?: ILocation[] }) {
-  const render = () => (
+  const { latitude, longitude } = useGeolocation();
+
+  return (
     <MapContainer
       center={center}
       zoom={zoom}
-      scrollWheelZoom={false}
+      scrollWheelZoom
       style={containerStyle}>
+      {latitude && longitude && (
+        <Marker zIndexOffset={9999} icon={greenIcon} position={{ lat: latitude, lng: longitude }}>
+          <Popup>You are here</Popup>
+        </Marker>
+      )}
       <TileLayer
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -37,8 +46,6 @@ export default function Map({ locations }: { locations?: ILocation[] }) {
       ))}
     </MapContainer>
   );
-
-  return render();
 }
 
 /**

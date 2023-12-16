@@ -1,7 +1,7 @@
 import { IUseMapStringSearchHook } from '@/types/hook';
 import { fetchSearchedLocationIds } from '@/utils/filter-locations';
+import { useDebounce } from '@uidotdev/usehooks';
 import { useEffect, useState } from 'react';
-import { useDebounce } from 'usehooks-ts';
 
 export const useMapStringSearch: IUseMapStringSearchHook = (
   searchString: string

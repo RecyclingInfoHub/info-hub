@@ -53,7 +53,7 @@ const MapFilter = ({
   if (!materials) return <div>Loading Materials</div>;
 
   return (
-    <div className="w-4/5 p-8 py-4 my-10 mx-auto bg-gray-100">
+    <div className="w-4/5 p-4 py-2 my-5 mx-auto bg-gray-100">
       <div
         className="text-xl font-bold flex justify-between"
         onClick={() => setOpen((o) => !o)}>

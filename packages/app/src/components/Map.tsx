@@ -24,7 +24,10 @@ export default function Map({ locations }: { locations?: ILocation[] }) {
       scrollWheelZoom
       style={containerStyle}>
       {latitude && longitude && (
-        <Marker zIndexOffset={9999} icon={greenIcon} position={{ lat: latitude, lng: longitude }}>
+        <Marker
+          zIndexOffset={9999}
+          icon={greenIcon}
+          position={{ lat: latitude, lng: longitude }}>
           <Popup>You are here</Popup>
         </Marker>
       )}

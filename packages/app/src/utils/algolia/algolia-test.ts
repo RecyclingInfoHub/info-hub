@@ -24,7 +24,7 @@ dotenv.config();
 // import algoliasearch from 'algoliasearch';
 
 // For the search only version
-import algoliasearch from 'algoliasearch/lite.js';
+import algoliasearch from 'algoliasearch/lite';
 
 const client = algoliasearch(
   process.env.NEXT_PUBLIC_ALGOLIA_APP_ID!,
